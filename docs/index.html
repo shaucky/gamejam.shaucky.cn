@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GameJam - Shaucky</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/animate.css"/>
+  <link rel="stylesheet" href="css/font/fontawesome.min.css" />
+  <link rel="stylesheet" href="css/font/brands.min.css" />
+  <link rel="stylesheet" href="css/font/solid.min.css" />
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #00023D;
+      color: white;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .game-card {
+      transition: transform 0.3s ease;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+    }
+	.soc-icon {
+	  position: relative;
+	  font-size: 26px;
+	  line-height: 1;
+	  color: #333333;
+	  padding: 0 10px 15px;
+	  text-decoration: none;
+	}
+	footer > * {
+	  margin-bottom: 20px;
+	}
+  </style>
+</head>
+<body>
+  <header class="wow animate__animated animate__fadeInDown">
+    <h1 class="display-4">晓痴的GameJam作品集</h1>
+    <p class="lead">这里展示了我在各种GameJam活动中参与的游戏作品</p>
+  </header>
+  <div class="container my-5">
+    <div class="row g-4">
+      <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+        <div class="card game-card shadow-sm">
+          <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="林克传说 泡泡的再现">
+          <div class="card-body">
+            <h5 class="card-title">林克传说 泡泡的再现</h5>
+            <p class="card-jam">Global Game Jam 2025（48小时）</p>
+            <p class="card-text">《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。</p>
+            <a href="#" class="btn btn-primary">查看</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+        <div class="card game-card shadow-sm">
+          <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="衔尾之蛇">
+          <div class="card-body">
+            <h5 class="card-title">衔尾之蛇</h5>
+            <p class="card-jam">CiGA Game Jam 2024（48小时）</p>
+            <p class="card-text">《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自身的能力，去探索一座无限循环的迷宫。</p>
+            <a href="https://gmhub.com/game/5367" class="btn btn-primary">查看</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+        <div class="card game-card shadow-sm">
+          <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Good Day">
+          <div class="card-body">
+            <h5 class="card-title">Good Day</h5>
+            <p class="card-jam">Global Game Jam 2024（48小时）</p>
+            <p class="card-text">《Good Day》是一款图像化叙事的点击解密类游戏。玩家通过点击屏幕的方式操控主角行动，逐步了解主角忧郁的一天是如何度过的。</p>
+            <a href="https://globalgamejam.org/games/2024/good-day-9" class="btn btn-primary">查看</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-4 bg-light">
+	<div style="user-select: none;" class="wow animate__animated animate__fadeInUp" data-wow-delay="1s">
+		<p style="font-size: 20px;text-decoration: underline;">Contact <b>ME</b>:</p>
+		<a class="soc-icon" target="_blank" href="https://space.bilibili.com/11605064">
+			<i class="fa-brands fa-bilibili"></i>
+		</a>
+		<a class="soc-icon" target="_blank" href="https://github.com/shaucky">
+			<i class="fa-brands fa-github"></i>
+		</a>
+	</div>
+    <p class="wow animate__animated animate__fadeInUp" data-wow-delay="1.5s">©2025 Shaucky. All Rights Reserved.</p>
+  </footer>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/font/fontawesome.min.js"></script>
+  <script src="js/font/brands.min.js"></script>
+  <script src="js/font/solid.min.js"></script>
+  <script src="js/wow.js"></script>
+  <script>
+    new WOW().init();
+  </script>
+</body>
+</html>
