@@ -25,6 +25,18 @@
     .game-card:hover {
       transform: translateY(-5px);
     }
+	.card {
+  	  display: flex;
+  	  flex-direction: column;
+	}
+	.card-body {
+  	  flex: 1;
+  	  display: flex;
+  	  flex-direction: column;
+	}
+	.card-body .bottom-actions {
+  	  margin-top: auto;
+	}
 	.soc-icon {
 	  position: relative;
 	  font-size: 26px;
@@ -45,40 +57,56 @@
   </header>
   <div class="container my-5">
 	<div class="p-4 bg-light rounded shadow-sm animate__animated animate__fadeInUp">
-	  <p class="mb-0">GameJam（或写作Game Jam）是一种游戏创作活动，通常在48小时至21天的有限时间内完成。参与者需要在规定主题下，快速组队、构思并实现一个可玩的游戏原型。它强调创意的迸发、团队的合作以及对游戏设计的探索。GameJam不仅是一次挑战时间与技能的体验，更是展示灵感、结识伙伴和突破自我的舞台。</p>
+	  <p class="mb-0" style="text-indent:2em;">GameJam（或写作Game Jam）是一种游戏创作活动，通常在48小时至21天的有限时间内完成。参与者需要在规定主题下，快速组队、构思并实现一个可玩的游戏原型。它强调创意的迸发、团队的合作以及对游戏设计的探索。GameJam不仅是一次挑战时间与技能的体验，更是展示灵感、结识伙伴和突破自我的舞台。</p>
 	</div>
-	<div class="text-center my-4 text-dark-emphasis animate__animated animate__fadeInUp" id="game-tips">（页面加载中…）</div>
+	<div class="text-center my-4 text-dark-emphasis animate__animated animate__fadeInUp" id="game-tips">（页面加载中…来自GitHub Pages服务器…）</div>
     <div class="row g-4" id="game-list" style="visibility: hidden;">
       <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
-        <div class="card game-card shadow-sm">
+        <div class="card game-card shadow-sm h-100">
           <img src="images/index/EchoesOfBubble.png" class="card-img-top" alt="林克传说 泡泡的再现">
           <div class="card-body">
             <h5 class="card-title">林克传说 泡泡的再现</h5>
             <p class="card-jam">Global Game Jam 2025（48小时）</p>
             <p class="card-text">《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。</p>
-            <a href="https://globalgamejam.org/games/2025/legend-link-echoes-bubble-1" class="btn btn-primary">查看</a>
+			<div class="bottom-actions">
+			  <div class="text-end mb-3">
+    		  	<i class="fa-brands fa-windows text-primary me-2"></i>
+    		  	<i class="fa-brands fa-android text-primary me-2"></i>
+  			  </div>
+              <a href="https://globalgamejam.org/games/2025/legend-link-echoes-bubble-1" class="btn btn-primary">详情</a>
+			</div>
           </div>
         </div>
       </div>
       <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
-        <div class="card game-card shadow-sm">
+        <div class="card game-card shadow-sm h-100">
           <img src="images/index/Ouroboros.png" class="card-img-top" alt="衔尾之蛇">
           <div class="card-body">
             <h5 class="card-title">衔尾之蛇</h5>
             <p class="card-jam">CiGA Game Jam 2024（48小时）</p>
             <p class="card-text">《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自身的能力，去探索一座无限循环的迷宫。</p>
-            <a href="https://gmhub.com/game/5367" class="btn btn-primary">查看</a>
+			<div class="bottom-actions">
+			  <div class="text-end mb-3">
+    		  	<i class="fa-brands fa-windows text-primary me-2"></i>
+  			  </div>
+              <a href="https://gmhub.com/game/5367" class="btn btn-primary">详情</a>
+			</div>
           </div>
         </div>
       </div>
       <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
-        <div class="card game-card shadow-sm">
+        <div class="card game-card shadow-sm h-100">
           <img src="images/index/GoodDay.png" class="card-img-top" alt="Good Day">
           <div class="card-body">
             <h5 class="card-title">Good Day</h5>
             <p class="card-jam">Global Game Jam 2024（48小时）</p>
             <p class="card-text">《Good Day》是一款图像化叙事的点击解密类游戏。玩家通过点击屏幕的方式操控主角行动，逐步了解主角忧郁的一天是如何度过的。</p>
-            <a href="https://globalgamejam.org/games/2024/good-day-9" class="btn btn-primary">查看</a>
+			<div class="bottom-actions">
+			  <div class="text-end mb-3">
+    		  	<i class="fa-brands fa-windows text-primary me-2"></i>
+  			  </div>
+              <a href="https://globalgamejam.org/games/2024/good-day-9" class="btn btn-primary">详情</a>
+			</div>
           </div>
         </div>
       </div>
