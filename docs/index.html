@@ -39,13 +39,16 @@
   </style>
 </head>
 <body>
-  <header class="wow animate__animated animate__fadeInDown">
+  <header class="animate__animated animate__fadeInDown">
     <h1 class="display-4">晓痴的GameJam作品集</h1>
     <p class="lead">这里展示了我在各种GameJam活动中参与的游戏作品</p>
   </header>
-  <div class="container my-5" id="game-list" style="visibility: hidden;">
-	<div class="text-center my-4 text-dark-emphasis wow animate__animated animate__fadeInUp">（按产出时间倒序）</div>
-    <div class="row g-4">
+  <div class="container my-5">
+	<div class="p-4 bg-light rounded shadow-sm animate__animated animate__fadeInUp">
+	  <p class="mb-0">GameJam（或写作Game Jam）是一种游戏创作活动，通常在48小时至21天的有限时间内完成。参与者需要在规定主题下，快速组队、构思并实现一个可玩的游戏原型。它强调创意的迸发、团队的合作以及对游戏设计的探索。GameJam不仅是一次挑战时间与技能的体验，更是展示灵感、结识伙伴和突破自我的舞台。</p>
+	</div>
+	<div class="text-center my-4 text-dark-emphasis animate__animated animate__fadeInUp" id="game-tips">（页面加载中…）</div>
+    <div class="row g-4" id="game-list" style="visibility: hidden;">
       <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
         <div class="card game-card shadow-sm">
           <img src="images/index/EchoesOfBubble.png" class="card-img-top" alt="林克传说 泡泡的再现">
@@ -102,7 +105,10 @@
   <script src="js/wow.js"></script>
   <script>
 	window.onload = function() {
-      let e = document.getElementById("game-list");
+	  let e;
+	  e = document.getElementById("game-tips");
+	  e.innerHTML = "（按产出时间倒序）";
+      e = document.getElementById("game-list");
       e.style.visibility = "visible";
       new WOW().init();
 	};
