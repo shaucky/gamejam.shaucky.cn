@@ -97,13 +97,18 @@
   function renderGameCards(data) {
     const list = document.getElementById('game-list');
     list.innerHTML = '';
+    const imgPrefix = 'images/index/';
     data.forEach(game => {
       const col = document.createElement('div');
       col.className = 'col-md-4 wow animate__animated animate__fadeInUp';
       col.setAttribute('data-wow-delay', '0.4s');
+      let reviewBtn = '';
+      if (game.review && typeof game.review === 'string' && game.review.trim() !== '') {
+        reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}" class="btn btn-primary ms-2">复盘</a>`;
+      }
       col.innerHTML = `
         <div class="card game-card shadow-sm h-100">
-          <img src="${game.img}" class="card-img-top" alt="${game.title}">
+          <img src="${imgPrefix}${game.img}" class="card-img-top" alt="${game.title}">
           <div class="card-body">
             <h5 class="card-title">${game.title}</h5>
             <p class="card-jam">${game.jam}</p>
@@ -112,7 +117,7 @@
               <div class="text-end mb-3">
                 ${getPlatformIcons(game.platforms)}
               </div>
-              <a href="${game.link}" class="btn btn-primary">详情</a>
+              <a href="${game.context}" class="btn btn-primary">详情</a>${reviewBtn}
             </div>
           </div>
         </div>
@@ -124,9 +129,9 @@
 
   document.addEventListener("DOMContentLoaded", function() {
     let e = document.getElementById("game-tips");
-    e.innerHTML = "（按产出时间倒序）";
     fetch('data/index/games.json', {cache: 'no-store'})
       .then(resp => {
+        e.innerHTML = "（按产出时间倒序）";
         if (!resp.ok) throw new Error('网络错误');
         return resp.json();
       })

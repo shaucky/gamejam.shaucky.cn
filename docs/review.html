@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GameJam 复盘 - Shaucky</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/animate.css"/>
+  <style>
+    body {
+        background-color: #f9f9f9;
+    }
+    header {
+        background-color: #00023D;
+        color: white;
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+    .review-content {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #0001;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+	.soc-icon {
+	  position: relative;
+	  font-size: 26px;
+	  line-height: 1;
+	  color: #333333;
+	  padding: 0 10px 15px;
+	  text-decoration: none;
+	}
+	footer > * {
+	  margin-bottom: 20px;
+	}
+  </style>
+</head>
+<body>
+  <header class="animate__animated animate__fadeInDown">
+    <h1 class="display-4" id="review-title">复盘</h1>
+    <p class="lead" id="review-topic"></p>
+  </header>
+  <div class="container my-5">
+    <div id="review-content" class="review-content animate__animated animate__fadeInUp">
+      <div class="text-center text-secondary">（页面加载中…来自GitHub Pages服务器…）</div>
+    </div>
+  </div>
+
+  <footer class="text-center py-5 bg-light wow animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+    <div style="user-select: none;">
+      <p style="font-size: 20px;text-decoration: underline;">Contact <b>ME</b>:</p>
+      <a class="soc-icon" target="_blank" href="https://space.bilibili.com/11605064">
+        <i class="fa-brands fa-bilibili"></i>
+      </a>
+      <a class="soc-icon" target="_blank" href="https://github.com/shaucky">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+    <p>©2025 Shaucky. All Rights Reserved.</p>
+  </footer>
+
+  <!--<script src="js/bootstrap.bundle.min.js"></script>-->
+  <script src="js/font/fontawesome.min.js"></script>
+  <script src="js/font/brands.min.js"></script>
+  <script src="js/font/solid.min.js"></script>
+  <script src="js/wow.js"></script>
+  <script>
+  function getQueryParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+  function renderReview(data) {
+    const box = document.getElementById('review-content');
+    const titleEl = document.getElementById('review-title');
+    const topicEl = document.getElementById('review-topic');
+    if (!data || !data.title) {
+      if (titleEl) titleEl.textContent = '复盘';
+      if (topicEl) topicEl.textContent = '';
+      box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
+      return;
+    }
+    if (titleEl) titleEl.textContent = data.title + '复盘';
+    if (topicEl) topicEl.textContent = '主题：' + data.topic || '';
+    let html = '';
+      if (data.date) {
+        html += `<div class="mb-2 text-end">
+          <div class="text-secondary">作者：晓痴（Shaucky）</div>
+          <div class="text-secondary">Jam日期：${data.date}</div>
+        </div>`;
+    }
+    if (data.sections && Array.isArray(data.sections)) {
+      data.sections.forEach(sec => {
+        if (sec.heading) html += `<h4 class="mt-4">${sec.heading || ''}</h4>`;
+        html += `<div class="mb-3">${sec.content || ''}</div>`;
+      });
+    }
+    box.innerHTML = html;
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    const jam = getQueryParam('jam');
+    if (!jam) {
+      renderReview(null);
+      return;
+    }
+    fetch(`data/review/${jam}.json`, {cache: 'no-store'})
+      .then(resp => resp.ok ? resp.json() : null)
+      .then(data => renderReview(data))
+      .catch(() => renderReview(null));
+  });
+  </script>
+  <link rel="stylesheet" href="css/font/fontawesome.min.css"/>
+  <link rel="stylesheet" href="css/font/brands.min.css"/>
+  <link rel="stylesheet" href="css/font/solid.min.css"/>
+</body>
+</html>
