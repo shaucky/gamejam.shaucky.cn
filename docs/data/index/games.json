@@ -1,0 +1,26 @@
+[
+  {
+    "title": "林克传说 泡泡的再现",
+    "jam": "Global Game Jam 2025（48小时）",
+    "desc": "《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。",
+    "img": "images/index/EchoesOfBubble.png",
+    "link": "https://globalgamejam.org/games/2025/legend-link-echoes-bubble-1",
+    "platforms": ["windows", "android"]
+  },
+  {
+    "title": "衔尾之蛇",
+    "jam": "CiGA Game Jam 2024（48小时）",
+    "desc": "《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自身的能力，去探索一座无限循环的迷宫。",
+    "img": "images/index/Ouroboros.png",
+    "link": "https://gmhub.com/game/5367",
+    "platforms": ["windows"]
+  },
+  {
+    "title": "Good Day",
+    "jam": "Global Game Jam 2024（48小时）",
+    "desc": "《Good Day》是一款图像化叙事的点击解密类游戏。玩家通过点击屏幕的方式操控主角行动，逐步了解主角忧郁的一天是如何度过的。",
+    "img": "images/index/GoodDay.png",
+    "link": "https://globalgamejam.org/games/2024/good-day-9",
+    "platforms": ["windows"]
+  }
+]
