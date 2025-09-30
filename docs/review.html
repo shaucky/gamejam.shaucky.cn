@@ -77,16 +77,17 @@
     const titleEl = document.getElementById('review-title');
     const topicEl = document.getElementById('review-topic');
     const headTitle = document.querySelector('head > title');
-    if (!data || !data.title) {
-      if (titleEl) titleEl.textContent = '复盘';
-      if (topicEl) topicEl.textContent = '';
-      if (headTitle) headTitle.textContent = 'GameJam复盘 - Shaucky';
+    if (!data) {
       box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
       return;
     }
-    if (titleEl) titleEl.textContent = data.title + '复盘';
-    if (topicEl) topicEl.textContent = '主题：' + data.topic || '';
+    if (titleEl) titleEl.textContent = (data.title || '') + '复盘';
+    if (topicEl) topicEl.textContent = data.topic ? '主题：' + data.topic : '';
     if (headTitle) headTitle.textContent = (data.title ? data.title + '复盘 - Shaucky' : 'GameJam复盘 - Shaucky');
+    if (!data || !Array.isArray(data.sections) || data.sections.length === 0) {
+      box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
+      return;
+    }
     let html = '';
     if (data.date) {
       html += `<div class="mb-2 text-end" style="user-select: none;">
@@ -94,12 +95,10 @@
         <div class="text-secondary">Jam日期：${data.date}</div>
       </div>`;
     }
-    if (data.sections && Array.isArray(data.sections)) {
-      data.sections.forEach(sec => {
-        if (sec.heading) html += `<h4 class="mt-4">${sec.heading || ''}</h4>`;
-        if (sec.content) html += `<div class="mb-3" style="text-indent:2em;">${sec.content || ''}</div>`;
-      });
-    }
+    data.sections.forEach(sec => {
+      if (sec.heading) html += `<h4 class="mt-4">${sec.heading || ''}</h4>`;
+      if (sec.content) html += `<div class="mb-3" style="text-indent:2em;">${sec.content || ''}</div>`;
+    });
     box.innerHTML = html;
   }
   document.addEventListener('DOMContentLoaded', function() {
