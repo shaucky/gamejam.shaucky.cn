@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GameJam 复盘 - Shaucky</title>
+  <title>GameJam复盘 - Shaucky</title>
   <link rel="stylesheet" href="css/bootstrap.min.css"/>
   <link rel="stylesheet" href="css/animate.css"/>
   <style>
@@ -41,7 +41,9 @@
     <h1 class="display-4" id="review-title">复盘</h1>
     <p class="lead" id="review-topic"></p>
   </header>
+
   <div class="container my-5">
+    <a href="./" class="animate__animated animate__fadeInLeft btn btn-primary rounded-pill px-4 py-2 fw-bold" style="font-size:1.1rem;">← 返回首页</a>
     <div id="review-content" class="review-content animate__animated animate__fadeInUp">
       <div class="text-center text-secondary">（页面加载中…来自GitHub Pages服务器…）</div>
     </div>
@@ -74,20 +76,23 @@
     const box = document.getElementById('review-content');
     const titleEl = document.getElementById('review-title');
     const topicEl = document.getElementById('review-topic');
+    const headTitle = document.querySelector('head > title');
     if (!data || !data.title) {
       if (titleEl) titleEl.textContent = '复盘';
       if (topicEl) topicEl.textContent = '';
+      if (headTitle) headTitle.textContent = 'GameJam复盘 - Shaucky';
       box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
       return;
     }
     if (titleEl) titleEl.textContent = data.title + '复盘';
     if (topicEl) topicEl.textContent = '主题：' + data.topic || '';
+    if (headTitle) headTitle.textContent = (data.title ? data.title + '复盘 - Shaucky' : 'GameJam复盘 - Shaucky');
     let html = '';
-      if (data.date) {
-        html += `<div class="mb-2 text-end" style="user-select: none;">
-          <div class="text-secondary">作者：晓痴（Shaucky）</div>
-          <div class="text-secondary">Jam日期：${data.date}</div>
-        </div>`;
+    if (data.date) {
+      html += `<div class="mb-2 text-end" style="user-select: none;">
+        <div class="text-secondary">作者：晓痴（Shaucky）</div>
+        <div class="text-secondary">Jam日期：${data.date}</div>
+      </div>`;
     }
     if (data.sections && Array.isArray(data.sections)) {
       data.sections.forEach(sec => {
