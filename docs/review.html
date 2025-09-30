@@ -103,6 +103,7 @@
       if (sec.content) html += `<div class="mb-3" style="text-indent:2em;">${sec.content || ''}</div>`;
     });
     box.innerHTML = html;
+    if (typeof WOW === 'function') new WOW().init();
   }
   document.addEventListener('DOMContentLoaded', function() {
     const jam = getQueryParam('jam');
