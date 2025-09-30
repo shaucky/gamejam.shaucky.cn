@@ -78,14 +78,14 @@
     const topicEl = document.getElementById('review-topic');
     const headTitle = document.querySelector('head > title');
     if (!data) {
-      box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
+      box.innerHTML = '<div class="text-danger">参数异常、未找到复盘内容或内容不存在。</div>';
       return;
     }
     if (titleEl) titleEl.textContent = (data.title || '') + '复盘';
     if (topicEl) topicEl.textContent = data.topic ? '主题：' + data.topic : '';
     if (headTitle) headTitle.textContent = (data.title ? data.title + '复盘 - Shaucky' : 'GameJam复盘 - Shaucky');
     if (!data || !Array.isArray(data.sections) || data.sections.length === 0) {
-      box.innerHTML = '<div class="text-danger">参数异常或未找到复盘内容。</div>';
+      box.innerHTML = '<div class="text-danger">参数异常、未找到复盘内容或内容不存在。</div>';
       return;
     }
     let html = '';
