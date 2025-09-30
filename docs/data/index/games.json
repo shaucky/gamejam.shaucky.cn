@@ -4,7 +4,6 @@
     "jam": "2025 Global Game Jam（48小时）",
     "desc": "《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。",
     "img": "EchoesOfBubble.png",
-    "review": "2025GGJ",
     "context": "https://globalgamejam.org/games/2025/legend-link-echoes-bubble-1",
     "platforms": ["windows", "android"]
   },
@@ -13,7 +12,6 @@
     "jam": "2024 CiGA Game Jam（48小时）",
     "desc": "《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自身的能力，去探索一座无限循环的迷宫。",
     "img": "Ouroboros.png",
-    "review": "2024CGJ",
     "context": "https://gmhub.com/game/5367",
     "platforms": ["windows"]
   },
