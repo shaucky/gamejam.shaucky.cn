@@ -84,7 +84,7 @@
     if (topicEl) topicEl.textContent = '主题：' + data.topic || '';
     let html = '';
       if (data.date) {
-        html += `<div class="mb-2 text-end">
+        html += `<div class="mb-2 text-end" style="user-select: none;">
           <div class="text-secondary">作者：晓痴（Shaucky）</div>
           <div class="text-secondary">Jam日期：${data.date}</div>
         </div>`;
@@ -92,7 +92,7 @@
     if (data.sections && Array.isArray(data.sections)) {
       data.sections.forEach(sec => {
         if (sec.heading) html += `<h4 class="mt-4">${sec.heading || ''}</h4>`;
-        html += `<div class="mb-3">${sec.content || ''}</div>`;
+        if (sec.content) html += `<div class="mb-3" style="text-indent:2em;">${sec.content || ''}</div>`;
       });
     }
     box.innerHTML = html;
