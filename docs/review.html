@@ -17,6 +17,26 @@
         color: white;
         padding: 3rem 1rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background: inherit;
+      filter: blur(100px) brightness(0.4);
+      transition: opacity 0.5s;
+    }
+    header > * {
+      position: relative;
+      z-index: 1;
     }
     .review-content {
         background: #fff;
@@ -36,6 +56,10 @@
 	footer > * {
 	  margin-bottom: 20px;
 	}
+
+  #review-content h4 {
+    color: #00046C;
+  }
   </style>
 </head>
 <body>
@@ -75,6 +99,16 @@
     const url = new URL(window.location.href);
     return url.searchParams.get(name);
   }
+
+  function setHeaderBg(imgName) {
+    const header = document.querySelector('header');
+    if (!header) return;
+    if (!imgName) {
+      header.style.backgroundImage = '';
+      return;
+    }
+    header.style.backgroundImage = `url('images/index/${imgName}.png')`;
+  }
   function renderReview(data) {
     const box = document.getElementById('review-content');
     const titleEl = document.getElementById('review-title');
@@ -107,6 +141,8 @@
   }
   document.addEventListener('DOMContentLoaded', function() {
     const jam = getQueryParam('jam');
+    const cover = getQueryParam('cover');
+    setHeaderBg(cover);
     if (!jam) {
       renderReview(null);
       return;
