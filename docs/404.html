@@ -43,15 +43,38 @@
     #random-game-container .card-text {
       color: #333;
     }
-    #random-game-container .btn-primary {
+    #random-game-container .btn-primary,
+    #random-game-container .btn-outline-secondary {
       border-radius: 2rem;
       padding: 0.4rem 1.3rem;
       font-weight: 600;
     }
-    #random-game-container .btn-outline-primary {
+    #change-game-btn {
       border-radius: 2rem;
       padding: 0.4rem 1.3rem;
-      font-weight: 600;
+      font-weight: bold;
+      background: none;
+      border: none;
+      color: #00023D;
+      box-shadow: none;
+      transition: none;
+    }
+    #change-game-btn:hover,
+    #change-game-btn:active,
+    #change-game-btn:focus {
+      background: none !important;
+      color: #00023D !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    #random-game-container .game-card .card-text {
+      height: calc(var(--bs-body-line-height) * 3em);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      white-space: normal;
     }
     #random-game-container .card img {
       background: #f6f8fa;
@@ -116,7 +139,7 @@
     return platforms.map(p => icons[p] || '').join('');
   }
 
-  function renderRandomGameCard(game) {
+  function renderRandomGameCard(game, allGames) {
     const container = document.getElementById('random-game-container');
     if (!game) return;
     const imgPrefix = 'images/index/';
@@ -124,7 +147,7 @@
     let reviewBtn = '';
     if (game.review && typeof game.review === 'string' && game.review.trim() !== '') {
       const bgParam = encodeURIComponent(game.img || '');
-      reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-primary ms-2">复盘</a>`;
+      reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-outline-secondary ms-2">复盘</a>`;
     }
     container.innerHTML = `
       <div class="mb-4 text-center text-dark-emphasis animate__animated animate__fadeInUp" style="font-size:1.15rem;">或者，可以了解一下下面这款我参与创作的游戏~</div>
@@ -139,7 +162,7 @@
                 <div class="card-body d-flex flex-column h-100 p-4">
                   <h5 class="card-title mb-2" style="font-size:1.35rem;font-weight:700;">${game.title}</h5>
                   <div class="mb-2 text-secondary small" style="font-weight:500;">${game.jam}</div>
-                  <div class="mb-3 card-text" style="min-height:3.5em;">${game.desc}</div>
+                  <div class="mb-3 card-text">${game.desc}</div>
                   <div class="d-flex align-items-center justify-content-between mt-auto pt-2">
                     <div class="text-start">${getPlatformIcons(game.platforms)}</div>
                     <div>
@@ -152,8 +175,26 @@
           </div>
         </div>
       </div>
+      <div class="text-center mt-3">
+        <a href="#" id="change-game-btn" class="btn rounded-pill px-4 py-2 fw-bold" style="font-size:1.05rem;">换一个</a>
+      </div>
     `;
     if (typeof WOW === 'function') new WOW().init();
+    
+    if (allGames && Array.isArray(allGames) && allGames.length > 1) {
+      const btn = document.getElementById('change-game-btn');
+      if (btn) {
+        btn.onclick = function(e) {
+          e.preventDefault();
+          let idx = allGames.findIndex(g => g === game);
+          let newIdx = idx;
+          while (newIdx === idx) {
+            newIdx = Math.floor(Math.random() * allGames.length);
+          }
+          renderRandomGameCard(allGames[newIdx], allGames);
+        };
+      }
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -168,7 +209,7 @@
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           const idx = Math.floor(Math.random() * data.length);
-          renderRandomGameCard(data[idx]);
+          renderRandomGameCard(data[idx], data);
         }
       })
       .catch(() => {});

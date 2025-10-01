@@ -39,6 +39,15 @@
   .card-img-top {
     user-select: none;
   }
+  .game-card .card-text {
+    height: calc(var(--bs-body-line-height) * 3em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
 	.soc-icon {
 	  position: relative;
 	  font-size: 26px;
@@ -118,7 +127,7 @@
       let reviewBtn = '';
       if (game.review && typeof game.review === 'string' && game.review.trim() !== '') {
         const bgParam = encodeURIComponent(game.img || '');
-        reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-primary ms-2">复盘</a>`;
+        reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-outline-secondary ms-2">复盘</a>`;
       }
       col.innerHTML = `
         <div class="card game-card shadow-sm h-100">
