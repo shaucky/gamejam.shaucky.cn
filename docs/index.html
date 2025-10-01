@@ -118,7 +118,7 @@
       let reviewBtn = '';
       if (game.review && typeof game.review === 'string' && game.review.trim() !== '') {
         const bgParam = encodeURIComponent(game.img || '');
-        reviewBtn = `<a href="review?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-primary ms-2">复盘</a>`;
+        reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-primary ms-2">复盘</a>`;
       }
       col.innerHTML = `
         <div class="card game-card shadow-sm h-100">
