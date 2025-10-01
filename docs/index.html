@@ -69,7 +69,7 @@
 
   <footer class="text-center py-5 bg-light wow animate__animated animate__fadeInUp" data-wow-delay="0.6s">
     <p style="font-size: 20px;text-decoration: underline;">Contact <b>ME</b>:</p>
-    <div style="user-select: none;">
+    <div id="" style="user-select: none;">
       <a class="soc-icon" target="_blank" href="https://space.bilibili.com/11605064">
         <i class="fa-brands fa-bilibili"></i>
       </a>
@@ -142,7 +142,9 @@
   }
 
   document.addEventListener("DOMContentLoaded", function() {
-    let e = document.getElementById("game-tips");
+    let e = document.getElementById('footer-contacts');
+    if (e) contacts.style.display = '';
+    e = document.getElementById("game-tips");
     fetch('data/index/games.json', {cache: 'no-store'})
       .then(resp => {
         e.innerHTML = "（按产出时间倒序）";

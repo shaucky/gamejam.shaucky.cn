@@ -146,6 +146,8 @@
     if (typeof WOW === 'function') new WOW().init();
   }
   document.addEventListener('DOMContentLoaded', function() {
+    let e = document.getElementById('footer-contacts');
+    if (e) contacts.style.display = '';
     const jam = getQueryParam('jam');
     const cover = getQueryParam('cover');
     setHeaderBg(cover);
