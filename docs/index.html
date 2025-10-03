@@ -38,6 +38,10 @@
 	}
   .card-img-top {
     user-select: none;
+    width: 100%;
+    object-fit: cover;
+    background-color: #e9ecef;
+    display: block;
   }
   .game-card .card-text {
     height: calc(var(--bs-body-line-height) * 3em);
@@ -45,6 +49,7 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     white-space: normal;
   }
@@ -146,6 +151,13 @@
         </div>
       `;
       list.appendChild(col);
+      const imgEl = col.querySelector('.card-img-top');
+      if (imgEl) {
+        imgEl.onerror = function() {
+          this.onerror = null;
+          this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><rect width="100%" height="100%" fill="%23e9ecef"/><text x="50%" y="50%" font-family="Arial,\'Helvetica Neue\',Helvetica,sans-serif" font-size="36" fill="%23777" dominant-baseline="middle" text-anchor="middle">封图缺失</text></svg>';
+        };
+      }
     });
     if (typeof WOW === 'function') new WOW().init();
   }
