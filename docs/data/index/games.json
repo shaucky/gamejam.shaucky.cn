@@ -1,5 +1,13 @@
 [
   {
+    "title": "代号：籁星",
+    "jam": "2025 聚光灯 21 天 GameJam",
+    "desc": "",
+    "img": "",
+    "context": "https://www.taptap.cn/app/779400",
+    "platforms": ["windows", "android"]
+  },
+  {
     "title": "林克传说 泡泡的再现",
     "jam": "2025 Global Game Jam（48小时）",
     "desc": "《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。",
