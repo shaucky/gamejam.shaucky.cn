@@ -1,9 +1,9 @@
 [
   {
-    "title": "代号：籁星",
+    "title": "王的刽子手",
     "jam": "2025 聚光灯 21 天 GameJam",
-    "desc": "",
-    "img": "",
+    "desc": "这是一款带轻度剧情解密的卡牌策略游戏。玩家作为软件安全工程师，技能与工具化作各种卡牌消灭病毒，维持内存占用，并揭开在无数战斗背后的阴谋。",
+    "img": "KingsExecutioner",
     "context": "https://www.taptap.cn/app/779400",
     "platforms": ["windows", "android"]
   },
