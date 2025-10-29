@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>籁星工作室 Lighsing Studio</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.8/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.css">
+  <style>
+    :root{
+      --brand-bg: #00023D;
+      --page-bg: #f9f9f9;
+      --muted: #6c757d;
+    }
+    html,body{height:100%;}
+    body{
+      background: var(--page-bg);
+      color: #222;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    .hero{
+      background: linear-gradient(180deg, var(--brand-bg) 0%, #0b0b3a 100%);
+      color: #fff;
+      padding: 3.5rem 1rem;
+      text-align: center;
+    }
+    .logo-placeholder{
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 1rem auto;
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-bg);
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .container-card{
+      max-width: 980px;
+      margin: -60px auto 3rem auto;
+    }
+    .studio-card{
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+    }
+    .work-cover{
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      background: #e9ecef;
+      display: block;
+    }
+    .meta small{color: var(--muted);} 
+    .back-link{color: var(--brand-bg); text-decoration: none;}
+	.soc-icon {
+	  position: relative;
+	  font-size: 26px;
+	  line-height: 1;
+	  color: #333333;
+	  padding: 0 10px 15px;
+	  text-decoration: none;
+	}
+	footer > * {
+	  margin-bottom: 20px;
+	}
+  </style>
+</head>
+<body>
+
+  <header class="hero animate__animated animate__fadeInDown">
+    <div class="logo-placeholder" aria-hidden="true">
+      <!-- 占位 LOGO -->
+      LOGO
+    </div>
+    <h1 class="h2 mb-1">籁星工作室</h1>
+    <p class="lead mb-0">Lighsing Studio</p>
+  </header>
+
+  <main class="container container-card">
+    <section class="studio-card animate__animated animate__fadeInUp">
+      <h2>关于我们</h2>
+      <p class="text-muted">籁星（Lighsing Studio）是一支参加 TapTap 2025 聚光灯 GameJam 的队伍。</p>
+
+      <div class="row my-4">
+        <div class="col-md-6">
+          <h3 class="h5">团队优势</h3>
+          <ul>
+            <li>成员均有丰富的游戏创作经历</li>
+            <li>主题解读、游戏设计与原型实现</li>
+            <li>跨平台可玩性与轻量化体验</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h3 class="h5">联系方式</h3>
+          <p class="mb-1">想与我们合作或邀请参赛，可通过下列方式联系：</p>
+          <p class="mb-0"><small class="text-muted">
+            <a href="https://www.taptap.cn/developer/313426" target="_blank">籁星工作室 - TapTap</a>
+        </small></p>
+        </div>
+        <p class="meta"><small>成员：<br>
+            晓痴（程序）、■■（策划）、之一（策划）、小辰子（美术）、苏筠（音乐音效）、Ela（美术）
+        </small></p>
+      </div>
+
+      <hr>
+
+      <h3>作品介绍</h3>
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <img class="work-cover" src="../images/index/KingsExecutioner.png" alt="作品封面占位">
+        </div>
+        <div class="col-md-5">
+          <h4 id="work-title">王的刽子手</h4>
+          <p class="text-muted">这是一款带轻度剧情解密的卡牌策略游戏。你将扮演一名知名软件安全公司TSZ的资深软件安全工程师，每天的工作便是使用自己掌握的工具和技能，对抗各式各样的病毒、木马、漏洞……</p>
+          <p class="mt-3"><a class="btn btn-primary" href="https://www.taptap.cn/app/779400" role="button" aria-disabled="true">查看详情</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center py-5 bg-light wow animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+    <p style="font-size: 20px;text-decoration: underline;">Contact <b>US</b>:</p>
+    <div id="footer-contacts" style="user-select: none;visibility: hidden;">
+      <a class="soc-icon" target="_blank" href="https://www.taptap.cn/developer/313426">
+      	<svg t="1759257528216" class="svg-inline--fa" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4715">
+          <path fill="currentColor" d="M170.666667 85.333333h682.666666a85.333333 85.333333 0 0 1 85.333334 85.333334v682.666666a85.333333 85.333333 0 0 1-85.333334 85.333334H170.666667a85.333333 85.333333 0 0 1-85.333334-85.333334V170.666667a85.333333 85.333333 0 0 1 85.333334-85.333334z m-7.168 242.645334c-12.288 8.533333-18.474667 22.016-18.474667 40.533333 0 18.432 8.533333 30.805333 25.685333 37.077333h79.914667c3.754667 0 5.632 1.834667 5.632 5.461334v244.906666c0 6.613333 2.773333 9.941333 8.362667 9.941334h59.434666c6.101333 0 9.173333-3.328 9.173334-9.941334v-244.906666c0-3.626667 1.749333-5.461333 5.290666-5.461334H410.88c4.992 0 7.509333-2.986667 7.509333-8.874666V352.896c0-4.949333-2.517333-7.424-7.509333-7.424H174.762667A7.338667 7.338667 0 0 1 170.666667 344.064c-2.133333-1.365333-2.133333-7.978667-2.133334-16.085333 0-1.28-1.664-1.28-5.077333 0z m354.901333 90.069333c-6.016-2.304-44.586667-3.712-66.133333 0-21.589333 3.712-80.384 31.872-80.384 121.429333 0 125.866667 89.514667 126.421333 97.706666 126.421334 25.472-0.64 43.989333-13.397333 55.637334-38.314667 1.536-1.536 2.901333-1.536 4.096 0 1.792 2.261333 7.082667 41.045333 51.626666 41.984 18.218667 0 34.048-6.314667 47.445334-18.944 3.754667-3.584 3.754667-6.272 0-8.106667-14.122667-6.698667-21.248-15.658667-21.248-20.010666l-1.194667-208.170667c0.042667-3.626667-1.834667-5.461333-5.674667-5.461333h-65.28c-3.712 0-5.674667 1.493333-5.674666 5.461333v6.016c0 2.346667-4.864 0-10.922667-2.304z m10.922667 160.853333c0 7.253333-11.178667 19.626667-17.322667 23.125334-14.592 8.234667-27.690667 6.357333-29.653333 6.357333-4.266667 0-45.824-6.741333-46.677334-75.264-0.554667-42.026667 25.728-75.136 62.592-75.136 20.48 0 30.890667 2.261333 31.061334 6.826667v114.090666z m89.088-173.397333c2.816 3.370667 26.197333 3.370667 26.197333 27.221333v313.429334c0 1.834667 0 9.088 9.002667 9.088h52.906666c8.448 0 14.506667 0 14.506667-9.088v-95.957334c0-6.4 4.949333-6.4 7.424-4.266666 2.517333 2.133333 12.373333 19.84 49.92 19.84 37.546667 0 100.608-37.418667 100.608-128.853334s-57.6-131.413333-100.650667-131.413333-51.114667 27.221333-57.472 27.221333c-6.4 0-14.293333-51.370667-56.405333-51.370666-38.4 0-48.810667 20.736-46.037333 24.149333z m102.4 82.176c0-7.466667 15.701333-22.826667 39.936-22.826667 24.234667 0 50.901333 22.826667 50.901333 68.394667s-29.952 71.978667-50.901333 71.978667c-20.906667 0-39.893333-12.714667-39.893334-20.352V487.68z" p-id="4716">
+          </path>
+        </svg>
+      </a>
+    </div>
+    <p>©2025 Lighsing Studio. All Rights Reserved.</p>
+  </footer>
+
+  <!--<script src="../js/bootstrap.bundle.min.js"></script>-->
+  <!--<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>-->
+  <script src="../js/font/fontawesome.min.js"></script>
+  <script src="../js/font/brands.min.js"></script>
+  <script src="../js/font/solid.min.js"></script>
+  <script src="../js/wow.js"></script>
+  <script>
+  function getPlatformIcons(platforms) {
+    const icons = {
+      windows: '<i class="fa-brands fa-windows text-primary me-2"></i>',
+      android: '<i class="fa-brands fa-android text-primary me-2"></i>',
+      mac: '<i class="fa-brands fa-apple text-primary me-2"></i>',
+      web: '<i class="fa-solid fa-globe text-primary me-2"></i>'
+    };
+    return platforms.map(p => icons[p] || '').join('');
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    let e = document.getElementById('footer-contacts');
+    if (e) e.style.visibility = '';
+    if (typeof WOW === 'function') new WOW().init();
+  });
+  </script>
+  <link rel="stylesheet" href="../css/font/fontawesome.min.css"/>
+  <link rel="stylesheet" href="../css/font/brands.min.css"/>
+  <link rel="stylesheet" href="../css/font/solid.min.css"/>
+</body>
+</html>
