@@ -4,13 +4,14 @@
     "jam": "2025 聚光灯 21 天游戏创作挑战",
     "desc": "这是一款带轻度剧情解密的卡牌策略游戏。玩家作为软件安全工程师，技能与工具化作各种卡牌消灭病毒，维持内存占用，并揭开在无数战斗背后的阴谋。",
     "img": "KingsExecutioner",
+    "review": "2025SGJ",
     "context": "https://www.taptap.cn/app/779400",
     "platforms": ["windows", "android"]
   },
   {
     "title": "林克传说 泡泡的再现",
     "jam": "2025 Global Game Jam（48小时）",
-    "desc": "《林克传说 泡泡的再现》是一款卡牌策略类游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。",
+    "desc": "《林克传说 泡泡的再现》是一款益智策略游戏，玩家需要合理安排攻击力浮动小的塞尔达和攻击力浮动大的米法，应对各种怪物或道具。",
     "img": "EchoesOfBubble",
     "context": "https://globalgamejam.org/games/2025/legend-link-echoes-bubble-1",
     "platforms": ["windows", "android"]
@@ -18,7 +19,7 @@
   {
     "title": "衔尾之蛇",
     "jam": "2024 CiGA Game Jam（48小时）",
-    "desc": "《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自身的能力，去探索一座无限循环的迷宫。",
+    "desc": "《衔尾之蛇》是一款类贪吃蛇的解密游戏。玩家扮演一条能改变长度的“蛇”，通过改变自己掌握的能力，去探索一座无限循环的迷宫。",
     "img": "Ouroboros",
     "context": "https://gmhub.com/game/5367",
     "platforms": ["windows"]
