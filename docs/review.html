@@ -133,9 +133,9 @@
     }
     let html = '';
     if (data.date) {
-      html += `<div class="mb-2 text-end" style="user-select: none;">
+      html += `<div class="mb-2 text-end">
         <div class="text-secondary">作者：晓痴（Shaucky）</div>
-        <div class="text-secondary">Jam日期：${data.date}</div>
+        <div class="text-secondary" style="user-select: none;">Jam日期：${data.date}</div>
       </div>`;
     }
     data.sections.forEach(sec => {
