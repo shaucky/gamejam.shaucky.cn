@@ -3,69 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GameJam复盘 - Shaucky</title>
+  <title>GameJam回顾 - Shaucky</title>
   <!--<link rel="stylesheet" href="css/bootstrap.min.css"/>-->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.8/css/bootstrap.min.css">
   <!--<link rel="stylesheet" href="css/animate.css"/>-->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.css">
   <style>
     body {
-        background-color: #f9f9f9;
+      background-color: #f9f9f9;
     }
+  
     header {
-        background-color: #00023D;
-        color: white;
-        padding: 3rem 1rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+      background-color: #00023D;
+      color: white;
+      padding: 3rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
+  
     header::before {
       content: '';
       position: absolute;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100%; height: 100%;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
       background: inherit;
       filter: blur(100px) brightness(0.4);
       transition: opacity 0.5s;
     }
-    header > * {
+  
+    header>* {
       position: relative;
       z-index: 1;
     }
+  
     .review-content {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px #0001;
-        padding: 2rem;
-        margin-top: 2rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 2rem;
+      margin-top: 2rem;
     }
-	.soc-icon {
-	  position: relative;
-	  font-size: 26px;
-	  line-height: 1;
-	  color: #333333;
-	  padding: 0 10px 15px;
-	  text-decoration: none;
-	}
-	footer > * {
-	  margin-bottom: 20px;
-	}
-
-  #review-content h4 {
-    color: #00046C;
-  }
+  
+    .soc-icon {
+      position: relative;
+      font-size: 26px;
+      line-height: 1;
+      color: #333333;
+      padding: 0 10px 15px;
+      text-decoration: none;
+    }
+  
+    footer>* {
+      margin-bottom: 20px;
+    }
+  
+    #review-content h4 {
+      color: #00046C;
+    }
   </style>
 </head>
 <body>
   <header class="animate__animated animate__fadeInDown">
-    <h1 class="display-4" id="review-title">复盘</h1>
-    <p class="lead" id="review-topic"></p>
+    <div class="container">
+      <div class="d-flex flex-column align-items-center gap-3">
+        <h1 class="display-5 fw-bold mb-0" id="review-title">回顾</h1>
+        <p class="lead mb-0" id="review-topic"></p>
+      </div>
+    </div>
   </header>
 
   <div class="container my-5">
@@ -121,14 +135,14 @@
     const topicEl = document.getElementById('review-topic');
     const headTitle = document.querySelector('head > title');
     if (!data) {
-      box.innerHTML = '<div class="text-danger">参数异常、未找到复盘内容或内容不存在。</div>';
+      box.innerHTML = '<div class="text-danger">参数异常、未找到回顾内容或内容不存在。</div>';
       return;
     }
-    if (titleEl) titleEl.textContent = (data.title || '') + '复盘';
+    if (titleEl) titleEl.textContent = (data.title || '') + '回顾';
     if (topicEl) topicEl.textContent = data.topic ? '主题：' + data.topic : '';
-    if (headTitle) headTitle.textContent = (data.title ? data.title + '复盘 - Shaucky' : 'GameJam复盘 - Shaucky');
+    if (headTitle) headTitle.textContent = (data.title ? data.title + '回顾 - Shaucky' : 'GameJam回顾 - Shaucky');
     if (!data || !Array.isArray(data.sections) || data.sections.length === 0) {
-      box.innerHTML = '<div class="text-danger">参数异常、未找到复盘内容或内容不存在。</div>';
+      box.innerHTML = '<div class="text-danger">参数异常、未找到回顾内容或内容不存在。</div>';
       return;
     }
     let html = '';
