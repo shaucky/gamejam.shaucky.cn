@@ -199,6 +199,10 @@
           const bgParam = encodeURIComponent(game.img || '');
           reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-outline-secondary ms-2">回顾</a>`;
         }
+        let teamBtn = '';
+        if (game.team && typeof game.team === 'string' && game.team.trim() !== '') {
+          teamBtn = `<a href="${encodeURIComponent(game.team)}/" target="_blank" class="btn btn-outline-secondary ms-2">团队</a>`;
+        }
         col.innerHTML = `
         <div class="card game-card shadow-sm h-100">
           <img src="${imgPrefix}${game.img}${imgSuffix}" class="card-img-top" alt="${game.title}">
@@ -210,7 +214,7 @@
               <div class="text-end mb-3">
                 ${getPlatformIcons(game.platforms)}
               </div>
-              <a href="${game.context}" class="btn btn-primary">详情</a>${reviewBtn}
+              <a href="${game.context}" class="btn btn-primary">详情</a>${reviewBtn}${teamBtn}
             </div>
           </div>
         </div>
