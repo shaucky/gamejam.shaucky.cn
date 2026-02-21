@@ -41,6 +41,18 @@
       transition: opacity 0.5s;
     }
   
+    .brand-pill {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .18);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+    }
+  
     header>* {
       position: relative;
       z-index: 1;
@@ -76,14 +88,20 @@
   <header class="animate__animated animate__fadeInDown">
     <div class="container">
       <div class="d-flex flex-column align-items-center gap-3">
+        <div class="brand-pill">
+          <i class="fa-solid fa-dice-d20"></i>
+          <span id="mini-title">游戏创作活动</span>
+        </div>
         <h1 class="display-5 fw-bold mb-0" id="review-title">回顾</h1>
         <p class="lead mb-0" id="review-topic"></p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="./" class="animate__animated animate__fadeInUp btn btn-primary rounded-pill px-4 py-2 fw-bold">← 返回首页</a>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="container my-5">
-    <a href="./" class="animate__animated animate__fadeInLeft btn btn-primary rounded-pill px-4 py-2 fw-bold" style="font-size:1.1rem;">← 返回首页</a>
     <div id="review-content" class="review-content animate__animated animate__fadeInUp">
       <div class="text-center text-secondary">（配置加载中…）</div>
     </div>

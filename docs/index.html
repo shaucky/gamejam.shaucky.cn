@@ -13,6 +13,7 @@
     body {
       background-color: #f9f9f9;
     }
+  
     header {
       background-color: #00023D;
       color: white;
@@ -20,39 +21,63 @@
       text-align: center;
       overflow: hidden;
     }
+  
     header::before {
       content: '';
       position: absolute;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100%; height: 100%;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
       background: inherit;
       filter: blur(100px) brightness(0.4);
       transition: opacity 0.5s;
     }
+  
+    .brand-pill {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .18);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+    }
+  
     header>* {
       position: relative;
       z-index: 1;
     }
+  
     .game-card {
       transition: transform 0.3s ease;
     }
+  
     .game-card:hover {
       transform: translateY(-5px);
     }
+  
     .card {
       display: flex;
       flex-direction: column;
     }
+  
     .card-body {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
+  
     .card-body .bottom-actions {
       margin-top: auto;
     }
+  
     .card-img-top {
       user-select: none;
       width: 100%;
@@ -60,6 +85,7 @@
       background-color: #e9ecef;
       display: block;
     }
+  
     .game-card .card-text {
       height: calc(var(--bs-body-line-height) * 3em);
       overflow: hidden;
@@ -70,6 +96,7 @@
       -webkit-box-orient: vertical;
       white-space: normal;
     }
+  
     .soc-icon {
       position: relative;
       font-size: 26px;
@@ -78,6 +105,7 @@
       padding: 0 10px 15px;
       text-decoration: none;
     }
+  
     footer>* {
       margin-bottom: 20px;
     }
@@ -88,8 +116,16 @@
   <header class="animate__animated animate__fadeInDown">
     <div class="container">
       <div class="d-flex flex-column align-items-center gap-3">
+        <div class="brand-pill">
+          <i class="fa-solid fa-dice-d20"></i>
+          <span id="mini-title">游戏创作活动</span>
+        </div>
         <h1 class="display-5 fw-bold mb-0">晓痴的GameJam作品集</h1>
         <p class="lead mb-0">这里展示了我在各种GameJam活动中参与的游戏作品</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="https://dev.shaucky.cn/" target="_blank"
+          class="animate__animated animate__fadeInUp btn btn-primary rounded-pill px-4 py-2 fw-bold">← 返回主站</a>
+        </div>
       </div>
     </div>
   </header>
