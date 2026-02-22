@@ -12,23 +12,61 @@
     body {
       background-color: #f9f9f9;
     }
+  
     header {
       background-color: #00023D;
       color: white;
       padding: 3rem 1rem;
       text-align: center;
+      overflow: hidden;
     }
-	.soc-icon {
-	  position: relative;
-	  font-size: 26px;
-	  line-height: 1;
-	  color: #333333;
-	  padding: 0 10px 15px;
-	  text-decoration: none;
-	}
-	footer > * {
-	  margin-bottom: 20px;
-	}
+  
+    header::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background: inherit;
+      filter: blur(100px) brightness(0.4);
+      transition: opacity 0.5s;
+    }
+  
+    .brand-pill {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .18);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+    }
+  
+    header>* {
+      position: relative;
+      z-index: 1;
+    }
+  
+    .soc-icon {
+      position: relative;
+      font-size: 26px;
+      line-height: 1;
+      color: #333333;
+      padding: 0 10px 15px;
+      text-decoration: none;
+    }
+  
+    footer>* {
+      margin-bottom: 20px;
+    }
+  
     #random-game-container .card.game-card {
       background: #fff;
       box-shadow: 0 4px 32px #0002;
@@ -36,19 +74,23 @@
       border: none;
       margin-bottom: 2rem;
     }
+  
     #random-game-container .card-title {
       color: #00023D;
       letter-spacing: 0.5px;
     }
+  
     #random-game-container .card-text {
       color: #333;
     }
+  
     #random-game-container .btn-primary,
     #random-game-container .btn-outline-secondary {
       border-radius: 2rem;
       padding: 0.4rem 1.3rem;
       font-weight: 600;
     }
+  
     #change-game-btn {
       border-radius: 2rem;
       padding: 0.4rem 1.3rem;
@@ -59,6 +101,7 @@
       box-shadow: none;
       transition: none;
     }
+  
     #change-game-btn:hover,
     #change-game-btn:active,
     #change-game-btn:focus {
@@ -67,6 +110,7 @@
       border: none !important;
       box-shadow: none !important;
     }
+  
     #random-game-container .game-card .card-text {
       height: calc(var(--bs-body-line-height) * 3em);
       overflow: hidden;
@@ -76,6 +120,7 @@
       -webkit-box-orient: vertical;
       white-space: normal;
     }
+  
     #random-game-container .card img {
       background: #f6f8fa;
       border-radius: 0.75rem;
@@ -83,9 +128,11 @@
       margin: 0 auto;
       display: block;
     }
+  
     #random-game-container .text-secondary {
-      color: #6c757d!important;
+      color: #6c757d !important;
     }
+  
     @media (max-width: 767px) {
       #random-game-container .card-body {
         padding: 1.2rem 1rem;
@@ -95,11 +142,21 @@
 </head>
 <body>
   <header class="animate__animated animate__fadeInDown">
-    <h1 class="display-4">404 NOT FOUND</h1>
-    <p class="lead">这里似乎是一片荒芜的无人之地</p>
+    <div class="container">
+      <div class="d-flex flex-column align-items-center gap-3">
+        <div class="brand-pill">
+          <i class="fa-solid fa-dice-d20"></i>
+          <span id="mini-title">游戏创作活动</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-0">404 NOT FOUND</h1>
+        <p class="lead mb-0">这里似乎是一片荒芜的无人之地</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="./" class="animate__animated animate__fadeInUp btn btn-primary rounded-pill px-4 py-2 fw-bold">← 返回首页</a>
+        </div>
+      </div>
+    </div>
   </header>
   <div class="container my-5">
-    <a href="./" class="animate__animated animate__fadeInLeft btn btn-primary rounded-pill px-4 py-2 fw-bold" style="font-size:1.1rem;">← 返回首页</a>
     <div id="random-game-container" class="mt-5"></div>
   </div>
 
@@ -155,7 +212,7 @@
       reviewBtn = `<a href="review.html?jam=${encodeURIComponent(game.review)}&cover=${bgParam}" class="btn btn-outline-secondary ms-2">复盘</a>`;
     }
     container.innerHTML = `
-      <div class="mb-4 text-center text-dark-emphasis animate__animated animate__fadeInUp" style="font-size:1.15rem;">或者，可以了解一下下面这款我参与创作的游戏~</div>
+      <div class="mb-4 text-center text-dark-emphasis animate__animated animate__fadeInUp" style="font-size:1.15rem;">或者，可以了解一下这款我参与创作的游戏~</div>
       <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
           <div class="card game-card shadow-lg border-0 overflow-hidden" style="border-radius: 1.25rem;">
@@ -181,7 +238,7 @@
         </div>
       </div>
       <div class="text-center mt-3">
-        <a href="#" id="change-game-btn" class="btn rounded-pill px-4 py-2 fw-bold" style="font-size:1.05rem;">换一个</a>
+        <a href="#" id="change-game-btn" class="btn rounded-pill px-4 py-2 fw-bold" style="font-size:1.05rem;">看看别的</a>
       </div>
     `;
     if (typeof WOW === 'function') new WOW().init();
