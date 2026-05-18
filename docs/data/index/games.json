@@ -1,10 +1,19 @@
 [
   {
+    "title": "莎莉的委托",
+    "jam": "2026第一届 BOOOMJam 游戏创作挑战（21天）",
+    "desc": "具备卡组构筑要素和战争迷雾机制的场景探索游戏，需要玩家合理选择卡牌，在有限的重生次数下找到所有火炬与线索。",
+    "img": "ACaseFromSally",
+    "review": "2026BJ",
+    "context": "https://www.gcores.com/games/179811",
+    "platforms": ["windows"]
+  },
+  {
     "title": "艾莉狂想曲 / Ellemental",
     "jam": "2026 Global Game Jam（48小时）",
     "desc": "这是一款横版跳跃游戏，玩家通过拾取面具碎片，解锁面具。面具代表着动物与技能，每次使用技能会消耗动物生命。目标是将所有动物带出困境。",
     "img": "Ellemental",
-    "context": "https://gmhub.com/game/8731",
+    "context": "https://www.taptap.cn/app/814560",
     "platforms": ["windows"]
   },
   {
