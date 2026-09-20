@@ -151,9 +151,20 @@
             <span id="temp-value" class="badge bg-secondary" style="min-width:3em">0.05</span>
           </div>
         </div>
-        <div class="mt-3 d-flex align-items-center gap-2 flex-wrap">
-          <span id="model-status" class="badge text-bg-light border">模型：未加载（首次下载约 113MB ，点击加权抽取也会触发加载）</span>
-          <button id="btn-download" type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3">加载模型</button>
+        <div class="mt-3">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span id="model-status" class="badge text-bg-light border">模型：未加载（首次下载约 113MB，点击加权抽取也会触发加载）</span>
+            <button id="btn-download" type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3">加载模型</button>
+          </div>
+          <div id="model-progress-wrap" class="mt-2 d-none">
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span id="model-progress-label">加载中…</span>
+              <span id="model-progress-pct"></span>
+            </div>
+            <div class="progress" style="height:8px">
+              <div id="model-progress-bar" class="progress-bar" style="width:0%"></div>
+            </div>
+          </div>
         </div>
         <p class="text-center text-secondary small mt-3 mb-0" id="pool-size">主题库：加载中…</p>
       </div>
@@ -233,34 +244,150 @@
     // ---------- 懒加载 Prompt 编码模型（全同源自托管） ----------
     let extractorPromise = null;
     const statusEl = document.getElementById('model-status');
+    const progressWrap = document.getElementById('model-progress-wrap');
+    const progressBar = document.getElementById('model-progress-bar');
+    const progressLabel = document.getElementById('model-progress-label');
+    const progressPct = document.getElementById('model-progress-pct');
+
+    const fmtMB = (bytes) => (bytes / 1024 / 1024).toFixed(1);
+    const fmtTime = (sec) => {
+      sec = Math.max(0, Math.round(sec));
+      return sec < 60 ? `${sec}s` : `${Math.floor(sec / 60)}m${String(sec % 60).padStart(2, '0')}s`;
+    };
+
+    // pct == null 表示不确定进度（探测 / 缓存命中 / 初始化阶段），显示条纹动画条
+    function showProgress(label, pct) {
+      progressWrap.classList.remove('d-none');
+      progressLabel.textContent = label;
+      if (pct == null) {
+        progressBar.classList.add('progress-bar-striped', 'progress-bar-animated');
+        progressBar.style.width = '100%';
+        progressPct.textContent = '';
+      } else {
+        progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated');
+        progressBar.style.width = pct.toFixed(1) + '%';
+        progressPct.textContent = pct.toFixed(0) + '%';
+      }
+    }
+
+    function hideProgress() { progressWrap.classList.add('d-none'); }
 
     function getExtractor() {
       if (!extractorPromise) {
         extractorPromise = (async () => {
-          statusEl.textContent = '模型：加载中（首次约 113MB，之后浏览器会缓存）…';
+          statusEl.textContent = '模型：加载中…';
           statusEl.className = 'badge text-bg-warning';
-          // 模型 onnx 超过 GitHub 单文件 100MB 上限，以分片部署，此处拦截请求并在浏览器端合并
+
           const realFetch = window.fetch.bind(window);
+
+          // 探测模型是否已在 transformers.js 的浏览器缓存中（Cache API，不受 DevTools「禁用缓存」影响）
+          let fromCache = false;
+          try {
+            if ('caches' in window && (await caches.keys()).includes('transformers-cache')) {
+              const cache = await caches.open('transformers-cache');
+              fromCache = (await cache.keys()).some(r => r.url.includes('model_quantized.onnx'));
+            }
+          } catch { /* 缓存不可用时忽略 */ }
+          showProgress(fromCache ? '从浏览器缓存读取模型…' : '加载推理组件…', null);
+
+          // 先用 HEAD 探测分片数量与总大小（用于下载百分比；失败则下载时逐个发现）
+          const shardURLs = [];
+          let totalBytes = 0;
+          for (let i = 0; ; i++) {
+            const url = `model/${state.model}/onnx/model_quantized.onnx.${i}`;
+            try {
+              const head = await realFetch(url, { method: 'HEAD' });
+              if (!head.ok) break;
+              shardURLs.push(url);
+              totalBytes += Number(head.headers.get('Content-Length')) || 0;
+            } catch { break; }
+          }
+
+          // 模型 onnx 超过 GitHub 单文件 100MB 上限，以分片部署，此处拦截请求并在浏览器端合并
+          let downloaded = 0;
+          let speed = 0, lastTick = performance.now(), lastBytes = 0;
+          let componentBytes = 0; // 推理组件（wasm / tokenizer 等）累计下载字节
+
           window.fetch = async (input, init) => {
             const url = typeof input === 'string' ? input : input && input.url;
             if (typeof url === 'string' && url.includes('model_quantized.onnx')) {
               const buffers = [];
-              let total = 0;
               for (let i = 0; ; i++) {
-                const resp = await realFetch(`model/${state.model}/onnx/model_quantized.onnx.${i}`);
-                if (!resp.ok) break; // 分片探测结束
-                const buf = await resp.arrayBuffer();
-                buffers.push(buf);
-                total += buf.byteLength;
-                statusEl.textContent = `模型：已下载分片 ${buffers.length}（${(total / 1024 / 1024) | 0}MB）…`;
+                if (shardURLs.length && i >= shardURLs.length) break; // HEAD 已探测完全部分片
+                const resp = await realFetch(shardURLs[i] || `model/${state.model}/onnx/model_quantized.onnx.${i}`);
+                if (!resp.ok) {
+                  if (i === 0) throw new Error('模型分片未找到');
+                  break;
+                }
+                if (!shardURLs.length) totalBytes += Number(resp.headers.get('Content-Length')) || 0;
+                if (resp.body) { // 流式下载，逐块更新进度
+                  const reader = resp.body.getReader();
+                  const chunks = [];
+                  for (;;) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    chunks.push(value);
+                    downloaded += value.byteLength;
+                    const now = performance.now();
+                    if (now - lastTick > 500) { // 每 500ms 平滑测速
+                      speed = ((downloaded - lastBytes) / (now - lastTick)) * 1000;
+                      lastTick = now; lastBytes = downloaded;
+                    }
+                    const extra = speed ? `（${fmtMB(speed)} MB/s，剩余 ${fmtTime((totalBytes - downloaded) / speed)}）` : '';
+                    showProgress(
+                      totalBytes ? `下载中 ${fmtMB(downloaded)} / ${fmtMB(totalBytes)} MB${extra}` : `下载中 ${fmtMB(downloaded)} MB`,
+                      totalBytes ? Math.min(100, downloaded / totalBytes * 100) : null,
+                    );
+                  }
+                  const merged = new Uint8Array(chunks.reduce((s, c) => s + c.byteLength, 0));
+                  let off = 0;
+                  for (const c of chunks) { merged.set(c, off); off += c.byteLength; }
+                  buffers.push(merged);
+                } else {
+                  const buf = await resp.arrayBuffer();
+                  buffers.push(buf);
+                  downloaded += buf.byteLength;
+                }
               }
               if (!buffers.length) throw new Error('模型分片未找到');
               const blob = new Blob(buffers, { type: 'application/octet-stream' });
               statusEl.textContent = '模型：初始化推理引擎…';
+              showProgress('初始化推理引擎…', null);
               return new Response(blob, {
                 status: 200,
                 headers: { 'Content-Length': String(blob.size) },
               });
+            }
+            // 推理组件（wasm / tokenizer / 配置）：流式转发并累计字节，让组件阶段也有进度反馈
+            if (typeof url === 'string') {
+              let path = '';
+              try { path = new URL(url, location.href).pathname; } catch { path = url; }
+              if (path.endsWith('.wasm') || path.includes('tokenizer') || path.endsWith('config.json')) {
+                const resp = await realFetch(input, init);
+                if (resp.ok && resp.body) {
+                  const reader = resp.body.getReader();
+                  const chunks = [];
+                  for (;;) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    chunks.push(value);
+                    componentBytes += value.byteLength;
+                    const prefix = fromCache ? '从缓存读取模型，加载推理组件' : '加载推理组件';
+                    showProgress(`${prefix}（已下载 ${fmtMB(componentBytes)} MB）…`, null);
+                  }
+                  const merged = new Uint8Array(chunks.reduce((s, c) => s + c.byteLength, 0));
+                  let off = 0;
+                  for (const c of chunks) { merged.set(c, off); off += c.byteLength; }
+                  return new Response(merged, {
+                    status: resp.status,
+                    headers: {
+                      'Content-Type': resp.headers.get('Content-Type') || 'application/octet-stream',
+                      'Content-Length': String(merged.byteLength),
+                    },
+                  });
+                }
+                return resp;
+              }
             }
             return realFetch(input, init);
           };
@@ -272,11 +399,13 @@
           const extractor = await pipeline('feature-extraction', state.model);
           statusEl.textContent = '模型：就绪';
           statusEl.className = 'badge text-bg-success';
+          hideProgress();
           return extractor;
         })().catch(err => {
           extractorPromise = null;
           statusEl.textContent = '模型：加载失败（' + err.message + '），请重试';
           statusEl.className = 'badge text-bg-danger';
+          hideProgress();
           throw err;
         });
       }
