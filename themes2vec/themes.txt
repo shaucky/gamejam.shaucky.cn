@@ -1,0 +1,410 @@
+# 主题池：纯文本，一行一个主题（中英文均可，模型为多语言）
+# 以 # 开头的行为注释，空行忽略，重复主题自动去重
+# 向量池由 themes2vec.mjs 生成，修改本文件后重新运行 npm run build 即可
+
+# —— 中文主题（185）——
+
+# 时刻与光阴
+间隙
+余温
+倒带
+延迟
+片刻
+时差
+过期
+慢半拍
+早退
+后知后觉
+分秒之间
+黎明之前
+此刻即永恒
+周末延长
+深夜十点
+下班之后
+开学前一晚
+迟来的一秒
+余生第一天
+正午
+
+# 边界与位置
+边界
+缝隙
+门后
+夹层
+中间地带
+边缘
+背面
+半空
+临界点
+一步之遥
+墙内墙外
+门外的人
+地平线
+分界线
+拐角处
+十字路口
+台阶尽头
+圆心之外
+高处与低处
+里外
+
+# 变化与过程
+褪色
+锈蚀
+萌芽
+凋零
+孵化
+蜕变
+蒸发
+沉淀
+风化
+发酵
+半熟
+苏醒
+枯荣
+复燃
+静默生长
+缓慢崩塌
+融化之前
+回潮
+汽化
+冷却
+
+# 关系与距离
+平行
+交错
+重叠
+交织
+错位
+隔阂
+失联
+重逢
+疏远
+背对背
+擦肩而过
+同频
+相向而行
+渐行渐远
+心照不宣
+相顾无言
+并肩
+对峙
+相邻
+久别
+
+# 程度与分量
+半
+几乎
+刚好
+多余
+不足
+过量
+极限
+半途
+未完成
+差不多
+再一点
+太多
+尽头的旁边
+有余
+不满足
+一点点
+全部
+用不完
+分寸
+火候
+
+# 感知与错觉
+盲区
+回声
+预感
+错觉
+幻觉
+通感
+幻听
+闻到记忆
+知觉边缘
+看不见的
+听不见的
+说不出的
+似曾相识
+视而不见
+余光
+焦点之外
+雾里看花
+近在眼前
+远方的声音
+陌生的熟悉
+
+# 身份与角色
+幕后
+配角
+替补
+备用
+二手
+继承者
+无名者
+中间人
+旁观者
+双面
+面具之下
+身份错位
+第一位观众
+最后一个离开
+不速之客
+局外人
+过来人
+无名之辈
+隐形人
+前任
+
+# 旧物与痕迹
+钥匙
+锁孔
+包装纸
+说明书
+保质期
+零件
+残页
+收藏
+遗失物
+票根
+旧物
+空盒子
+标签
+褪色的字迹
+未寄出的信
+旧照片
+备忘录
+涂改痕迹
+旧货摊
+遗落角落
+
+# 矛盾与悖论
+温柔的重量
+安静的轰鸣
+明亮的夜
+寒冷的火焰
+易碎的永恒
+漫长的瞬间
+免费的代价
+安全的危险
+拥挤的孤独
+清醒的梦
+无声的呐喊
+有序的混乱
+缓慢的坠落
+轻松的重担
+永远的暂时
+公开的秘密
+熟悉的意外
+崭新的旧物
+无害的谎言
+半开的门
+
+# 抽象拾遗
+熵
+潜台词
+暗流
+伏笔
+留白
+
+# —— 英文主题（180）——
+
+# Time & Moments
+Interval
+Interlude
+Overtime
+Overdue
+Snooze
+Small Hours
+Golden Hour
+Meanwhile
+Later
+Eventually
+Postponed
+Early Riser
+Late Bloomer
+Afterglow
+Counting Down
+Second Wind
+Night Shift
+Downtime
+Eleventh Hour
+Afterparty
+
+# Places & Edges
+Threshold
+Doorstep
+Edge of the Map
+Margins
+Fringe
+In Between
+Overlap
+Dead End
+Detour
+Waypoint
+Layover
+Borderline
+Middle Ground
+Off the Grid
+Underfoot
+Overhead
+Backstage
+Undercurrents
+Footnotes
+The Middle
+
+# Changes & Processes
+Unraveling
+Overgrown
+Half-Finished
+Second Draft
+Faded
+Weathered
+Rusted
+Bloomed Too Soon
+Still Growing
+Shedding
+Molting
+Melting Point
+Boiling Over
+Settling
+Fermenting
+Dormant
+Awakening
+Barely Floating
+Slow Collapse
+Quiet Bloom
+
+# Relations & Distances
+Parallel Lives
+Intersecting
+Kept Apart
+Side by Side
+Back to Back
+Strangers Again
+Missed Connection
+Long Distance
+Third Wheel
+Borrowed Time
+Mutual
+Close but Far
+Pen Pals
+Reunion
+Drifting
+Anchored
+Tethered
+Unbound
+Opposite Numbers
+One-Sided
+
+# Quantities & Degrees
+Not Quite
+Almost Enough
+Just Under
+Slightly Over
+Running Low
+Plenty
+Sparse
+Handful
+A Drop
+Overflow
+The Brink
+Tipping Point
+Half Full
+Half Empty
+Leftover
+Just a Sliver
+Barely There
+More or Less
+Give or Take
+Within Limits
+
+# Perception & Illusions
+Blind Spot
+Peripheral
+Out of Focus
+Echo Chamber
+Seeing Things
+Hearing Things
+Tunnel Vision
+Second Sight
+Deafening Silence
+Soft Focus
+Loud Colors
+Quiet Light
+Numb
+Oversaturated
+Wide Awake
+Daydream
+Lucid
+Deja Vu
+Afterimage
+Monochrome
+
+# Roles & Identities
+Understudy
+Stand-In
+Second Fiddle
+Sidekick
+Backup Plan
+Expendable
+Fill-In
+Body Double
+Counterpart
+Impersonator
+Also Starring
+Featured Extra
+Imperfect Copy
+Anonymous
+Unlisted
+The Other One
+Nobody's Hero
+Replaced
+Runner-Up
+Chaperone
+
+# Objects & Traces
+Spare Key
+Unclaimed
+Left Behind
+Keepsake
+Ticket Stub
+Receipts
+Fine Print
+Secondhand
+Refurbished
+Mislabeled
+Unboxed
+Sold As-Is
+Not for Sale
+Out of Print
+Discontinued
+Collectible
+One of a Set
+Matching Pair
+Spare Parts
+Patina
+
+# Paradoxes
+Open Secret
+Known Unknowns
+Organized Chaos
+Controlled Burn
+Planned Spontaneity
+Hurry Up and Wait
+Instant Classic
+Permanent Temporary
+Old News
+Fresh Ruins
+Bright Shadows
+Heavy Clouds
+Light Rain
+Gentle Giant
+Careful Accident
+Slow Rush
+Necessary Evil
+Bittersweet
+Semi-Professional
+Amateur Hour

@@ -1,0 +1,13 @@
+{
+  "name": "themes2vec",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "主题池向量化工具：transformers.js + Xenova/multilingual-MiniLM-L6-v2（仅本地运行）",
+  "scripts": {
+    "build": "node themes2vec.mjs"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2"
+  }
+}
