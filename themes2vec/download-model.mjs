@@ -84,4 +84,26 @@ function splitFile(dest) {
   console.log(`[model] 已删除原始大文件：${dest}`);
 }
 
+// 生成分片清单：记录文件的原始字节数，供在线页面计算准确的下载进度。
+// 原因：GitHub Pages 等会对 onnx 启用 gzip 传输，响应的 Content-Length 是压缩后的大小，
+// 而浏览器 fetch 读到的是解压后的字节，两者口径不一致，不能作为进度分母。
+{
+  const onnxDir = path.join(OUT_DIR, 'onnx');
+  const shardFiles = fs.existsSync(onnxDir)
+    ? fs.readdirSync(onnxDir)
+        .filter(f => /^model_quantized\.onnx(\.\d+)?$/.test(f))
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    : [];
+  if (shardFiles.length) {
+    const shards = shardFiles.map(file => ({ file, bytes: fs.statSync(path.join(onnxDir, file)).size }));
+    const manifest = {
+      model: MODEL_ID,
+      totalBytes: shards.reduce((s, x) => s + x.bytes, 0),
+      shards,
+    };
+    fs.writeFileSync(path.join(onnxDir, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+    console.log(`[model] 已生成 manifest.json（${shards.length} 个分片，共 ${(manifest.totalBytes / 1024 / 1024).toFixed(1)} MB）`);
+  }
+}
+
 console.log(`[model] 全部完成，输出目录：${OUT_DIR}`);

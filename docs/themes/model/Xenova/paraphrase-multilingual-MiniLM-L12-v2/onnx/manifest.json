@@ -1,0 +1,14 @@
+{
+  "model": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+  "totalBytes": 118308126,
+  "shards": [
+    {
+      "file": "model_quantized.onnx.0",
+      "bytes": 67108864
+    },
+    {
+      "file": "model_quantized.onnx.1",
+      "bytes": 51199262
+    }
+  ]
+}

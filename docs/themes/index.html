@@ -243,6 +243,7 @@
 
     // ---------- 懒加载 Prompt 编码模型（全同源自托管） ----------
     let extractorPromise = null;
+    const nativeFetch = window.fetch.bind(window); // 原生 fetch：模块加载时捕获，重试时不会捕获到旧拦截器
     const statusEl = document.getElementById('model-status');
     const progressWrap = document.getElementById('model-progress-wrap');
     const progressBar = document.getElementById('model-progress-bar');
@@ -278,8 +279,6 @@
           statusEl.textContent = '模型：加载中…';
           statusEl.className = 'badge text-bg-warning';
 
-          const realFetch = window.fetch.bind(window);
-
           // 探测模型是否已在 transformers.js 的浏览器缓存中（Cache API，不受 DevTools「禁用缓存」影响）
           let fromCache = false;
           try {
@@ -290,18 +289,16 @@
           } catch { /* 缓存不可用时忽略 */ }
           showProgress(fromCache ? '从浏览器缓存读取模型…' : '加载推理组件…', null);
 
-          // 先用 HEAD 探测分片数量与总大小（用于下载百分比；失败则下载时逐个发现）
-          const shardURLs = [];
-          let totalBytes = 0;
-          for (let i = 0; ; i++) {
-            const url = `model/${state.model}/onnx/model_quantized.onnx.${i}`;
-            try {
-              const head = await realFetch(url, { method: 'HEAD' });
-              if (!head.ok) break;
-              shardURLs.push(url);
-              totalBytes += Number(head.headers.get('Content-Length')) || 0;
-            } catch { break; }
-          }
+          // 读取构建时生成的分片清单（记录文件的原始字节数）。
+          // GitHub Pages 等会对 onnx 启用 gzip 传输：响应的 Content-Length 是压缩后的大小，
+          // 而 fetch 读到的是解压后的字节，两者口径不一致，进度分母只能用 manifest 的真实字节数。
+          let manifest = null;
+          try {
+            const resp = await nativeFetch(`model/${state.model}/onnx/manifest.json`);
+            if (resp.ok) manifest = await resp.json();
+          } catch { /* 无清单时回退为下载中逐步发现分片 */ }
+          const shardCount = manifest ? manifest.shards.length : 0;
+          let totalBytes = manifest ? manifest.totalBytes : 0;
 
           // 模型 onnx 超过 GitHub 单文件 100MB 上限，以分片部署，此处拦截请求并在浏览器端合并
           let downloaded = 0;
@@ -310,24 +307,36 @@
 
           window.fetch = async (input, init) => {
             const url = typeof input === 'string' ? input : input && input.url;
-            if (typeof url === 'string' && url.includes('model_quantized.onnx')) {
+            let pathname = '';
+            if (typeof url === 'string') {
+              try { pathname = new URL(url, location.href).pathname; } catch { pathname = url; }
+            }
+            // 精确匹配未分片的 onnx 请求（不能模糊 includes，否则会误匹配分片 URL）
+            if (pathname.endsWith('/onnx/model_quantized.onnx')) {
               const buffers = [];
+              let confirmed = 0; // 已完成分片的真实字节数（无 manifest 时作为分母依据）
               for (let i = 0; ; i++) {
-                if (shardURLs.length && i >= shardURLs.length) break; // HEAD 已探测完全部分片
-                const resp = await realFetch(shardURLs[i] || `model/${state.model}/onnx/model_quantized.onnx.${i}`);
+                if (shardCount && i >= shardCount) break; // manifest 已记录全部分片
+                const shardURL = shardCount
+                  ? `model/${state.model}/onnx/${manifest.shards[i].file}`
+                  : `model/${state.model}/onnx/model_quantized.onnx.${i}`;
+                const resp = await nativeFetch(shardURL);
                 if (!resp.ok) {
                   if (i === 0) throw new Error('模型分片未找到');
                   break;
                 }
-                if (!shardURLs.length) totalBytes += Number(resp.headers.get('Content-Length')) || 0;
                 if (resp.body) { // 流式下载，逐块更新进度
                   const reader = resp.body.getReader();
                   const chunks = [];
+                  let shardBytes = 0;
                   for (;;) {
                     const { done, value } = await reader.read();
                     if (done) break;
                     chunks.push(value);
+                    shardBytes += value.byteLength;
                     downloaded += value.byteLength;
+                    // 无清单时按已读字节自校正分母（gzip 下 Content-Length 与解压字节口径不一致）
+                    if (!shardCount && confirmed + shardBytes > totalBytes) totalBytes = confirmed + shardBytes;
                     const now = performance.now();
                     if (now - lastTick > 500) { // 每 500ms 平滑测速
                       speed = ((downloaded - lastBytes) / (now - lastTick)) * 1000;
@@ -339,6 +348,8 @@
                       totalBytes ? Math.min(100, downloaded / totalBytes * 100) : null,
                     );
                   }
+                  confirmed += shardBytes;
+                  if (!shardCount) totalBytes = confirmed; // 分片完成，真实字节已知
                   const merged = new Uint8Array(chunks.reduce((s, c) => s + c.byteLength, 0));
                   let off = 0;
                   for (const c of chunks) { merged.set(c, off); off += c.byteLength; }
@@ -347,6 +358,7 @@
                   const buf = await resp.arrayBuffer();
                   buffers.push(buf);
                   downloaded += buf.byteLength;
+                  confirmed += buf.byteLength;
                 }
               }
               if (!buffers.length) throw new Error('模型分片未找到');
@@ -359,11 +371,9 @@
               });
             }
             // 推理组件（wasm / tokenizer / 配置）：流式转发并累计字节，让组件阶段也有进度反馈
-            if (typeof url === 'string') {
-              let path = '';
-              try { path = new URL(url, location.href).pathname; } catch { path = url; }
-              if (path.endsWith('.wasm') || path.includes('tokenizer') || path.endsWith('config.json')) {
-                const resp = await realFetch(input, init);
+            {
+              if (pathname.endsWith('.wasm') || pathname.includes('tokenizer') || pathname.endsWith('config.json')) {
+                const resp = await nativeFetch(input, init);
                 if (resp.ok && resp.body) {
                   const reader = resp.body.getReader();
                   const chunks = [];
@@ -389,7 +399,7 @@
                 return resp;
               }
             }
-            return realFetch(input, init);
+            return nativeFetch(input, init);
           };
           const { pipeline, env } = await import('./js/transformers.min.js');
           env.allowLocalModels = true;
