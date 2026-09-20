@@ -81,6 +81,33 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* 双向进度条：中点为原点（相似度 0），正值向右、负值向左 */
+    .neighbor-bar {
+      position: relative;
+      flex: 1 1 auto;
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e9ecef;
+      overflow: hidden;
+    }
+
+    .neighbor-bar::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: #adb5bd;
+      z-index: 1;
+    }
+
+    .neighbor-bar-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+
     .soc-icon {
       position: relative;
       font-size: 26px;
@@ -121,8 +148,8 @@
   <div class="container my-5">
     <div class="p-4 bg-light rounded shadow animate__animated animate__fadeInUp mb-4">
       <p class="mb-0" style="text-indent:2em;">
-        想不出做什么主题？点一下「随机抽取」碰碰运气；
-        也可以在下方输入你想要的描述，让抽取结果更贴近你的想法（加权抽取需要先加载模型，可以点下方按钮提前准备）。
+        想找合适的主题？点一下「随机抽取」碰碰运气；
+        也可以在下方输入你想要的描述，让抽取结果更贴近你的方向（加权抽取需要加载模型，可以点下方按钮提前加载）。
       </p>
     </div>
 
@@ -131,24 +158,29 @@
         <h6 class="text-secondary mb-2 text-center" id="result-label">抽取结果</h6>
         <h2 id="result-theme" class="fw-bold text-center">？</h2>
         <p class="text-secondary small mb-3 text-center" id="result-meta">点击下方按钮，抽取你的主题</p>
-        <h6 class="text-secondary mb-2">最相近的主题</h6>
+        <h6 class="text-secondary mb-2" id="result-neighbors-label">最相近的主题</h6>
         <div id="result-neighbors"></div>
       </div>
     </div>
 
     <div class="card shadow-sm animate__animated animate__fadeInUp">
       <div class="card-body">
-        <label for="prompt-input" class="form-label fw-bold">提示词（仅「加权抽取」使用）</label>
+        <label for="prompt-input" class="form-label fw-bold">提示词<small>（仅「加权抽取」时使用）</small></label>
         <textarea id="prompt-input" class="form-control" rows="2"
-          placeholder="描述你想要的主题方向，例如：想做一个发生在深海、带有治愈感的游戏"></textarea>
+          placeholder="用一句话描述你想要的主题方向，例如：想做一个发生在深海、带有治愈感的游戏"></textarea>
         <div class="d-flex align-items-center gap-2 mt-3 flex-wrap">
           <button id="btn-random" type="button" class="btn btn-primary rounded-pill px-3" disabled>随机抽取</button>
           <button id="btn-prompt" type="button" class="btn btn-success rounded-pill px-3">加权抽取</button>
           <div class="ms-auto d-flex align-items-center gap-2">
             <label for="temperature" class="form-label mb-0 text-nowrap">随机度</label>
-            <input type="range" id="temperature" class="form-range" min="0.02" max="1" step="0.01" value="0.05"
+            <input type="range" id="temperature" class="form-range" min="0" max="1" step="0.01" value="0.03"
               style="width:120px" title="值越大抽取越随机，越小越贴近你的描述">
-            <span id="temp-value" class="badge bg-secondary" style="min-width:3em">0.05</span>
+            <span id="temp-value" class="badge bg-secondary" style="min-width:3em">0.03</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <label for="neighbor-count" class="form-label mb-0 text-nowrap">相近主题数</label>
+            <input type="number" id="neighbor-count" class="form-control form-control-sm" min="0" max="20" step="1"
+              value="5" style="width:5em" title="结果下方展示的相近主题条数">
           </div>
         </div>
         <div class="mt-3">
@@ -231,16 +263,11 @@
         .slice(0, k);
     }
 
-    function weightedSample(sims, temperature) {
-      const max = Math.max(...sims);
-      const w = sims.map(s => Math.exp((s - max) / temperature));
-      const sum = w.reduce((a, b) => a + b, 0);
-      let r = Math.random() * sum;
-      for (let i = 0; i < w.length; i++) {
-        r -= w[i];
-        if (r <= 0) return i;
-      }
-      return w.length - 1;
+    // Gumbel-max 采样：与 softmax(sims/T) 轮盘赌等价，但能把随机偏移量显式保留在相似度上，
+    // 供相近主题列表复用（偏移后的查询仍源自输入向量，不等同于抽中主题的向量）
+    function gumbelSample(sims, temperature) {
+      const perturbed = sims.map(s => s + temperature * -Math.log(-Math.log(Math.random())));
+      return { index: perturbed.indexOf(Math.max(...perturbed)), perturbed };
     }
 
     // ---------- 懒加载 Prompt 编码模型（全同源自托管） ----------
@@ -431,19 +458,22 @@
     const resultMeta = document.getElementById('result-meta');
     const resultNeighbors = document.getElementById('result-neighbors');
 
-    function render(label, theme, meta, neighbors) {
+    function render(label, theme, meta, neighbors, scale = Math.max(1e-9, ...neighbors.map(x => Math.abs(x.sim)))) {
       resultLabel.textContent = label;
       resultTheme.textContent = theme;
       resultMeta.textContent = meta;
+      document.getElementById('result-neighbors-label').style.display = neighbors.length ? '' : 'none';
       resultNeighbors.innerHTML = '';
-      neighbors.forEach(({ theme: n, sim }, idx) => {
+      // 双向进度条：中点为 0，左右半宽按 scale（当次全量相似度绝对值的最大值）归一化
+      neighbors.forEach(({ theme: n, sim }) => {
         const row = document.createElement('div');
         row.className = 'neighbor-row';
-        const pct = Math.max(0, Math.min(100, Math.round(sim * 100)));
+        const w = Math.min(50, Math.abs(sim) / scale * 50);
+        const fill = sim >= 0 ? `left:50%;width:${w}%` : `right:50%;width:${w}%`;
         row.innerHTML = `
-          <span class="neighbor-name small ${idx === 0 ? 'fw-bold' : 'text-secondary'}" title="${n}">${n}</span>
-          <div class="progress flex-grow-1" style="height:8px">
-            <div class="progress-bar ${idx === 0 ? '' : 'bg-secondary'}" style="width:${pct}%"></div>
+          <span class="neighbor-name small ${n === theme ? 'fw-bold' : 'text-secondary'}" title="${n}">${n}</span>
+          <div class="neighbor-bar">
+            <div class="neighbor-bar-fill ${n === theme ? 'bg-primary' : 'bg-secondary'}" style="${fill}"></div>
           </div>
           <span class="neighbor-sim small text-secondary">${sim.toFixed(3)}</span>`;
       resultNeighbors.appendChild(row);
@@ -457,13 +487,21 @@
     const promptInput = document.getElementById('prompt-input');
     const tempInput = document.getElementById('temperature');
     const tempValue = document.getElementById('temp-value');
+    const neighborCountInput = document.getElementById('neighbor-count');
     tempInput.addEventListener('input', () => tempValue.textContent = Number(tempInput.value).toFixed(2));
+
+    function getNeighborCount() {
+      const n = Math.round(Number(neighborCountInput.value));
+      return Number.isNaN(n) ? 5 : Math.max(0, Math.min(state.themes.length, n));
+    }
 
     document.getElementById('btn-random').addEventListener('click', () => {
       const i = Math.floor(Math.random() * state.themes.length);
+      const sims = state.vectors.map(v => dot(v, state.vectors[i]));
       render('随机抽取', state.themes[i],
         `主题库共 ${state.themes.length} 个主题`,
-        topK(state.vectors[i]));
+        topK(state.vectors[i], getNeighborCount()),
+        Math.max(1e-9, ...sims.map(Math.abs)));
     });
 
     document.getElementById('btn-prompt').addEventListener('click', async () => {
@@ -482,10 +520,15 @@
         const q = output.data; // Float32Array(384)
         const sims = state.vectors.map(v => dot(v, q));
         const temperature = Number(tempInput.value);
-        const i = weightedSample(sims, temperature);
+        const { index: i, perturbed } = gumbelSample(sims, temperature);
+        // 相近主题相对提示词的相似度计算，排序时叠加本次采样的随机偏移量
+        const neighbors = state.themes
+          .map((theme, j) => ({ theme, sim: perturbed[j] }))
+          .sort((a, b) => b.sim - a.sim)
+          .slice(0, getNeighborCount());
         render('加权抽取', state.themes[i],
-          `与你的描述「${prompt}」的贴合度 ${sims[i].toFixed(3)} · 随机度 ${temperature.toFixed(2)}`,
-          topK(state.vectors[i]));
+          `与你的描述「${prompt}」的原始相似度 ${sims[i].toFixed(3)} · 有效相似度 ${perturbed[i].toFixed(3)} · 随机度 ${temperature.toFixed(2)}`,
+          neighbors, Math.max(1e-9, ...perturbed.map(Math.abs)));
       } finally {
         btn.disabled = false;
       }
@@ -542,6 +585,7 @@
         state.model = pool.model;
         state.pooling = pool.pooling || 'mean';
         document.getElementById('pool-size').textContent = `主题库：共 ${pool.count} 个主题`;
+        neighborCountInput.max = pool.count; // 上限即主题库大小
         document.getElementById('btn-random').disabled = false;
       } catch (err) {
         document.getElementById('pool-size').textContent = '主题库：加载失败';
