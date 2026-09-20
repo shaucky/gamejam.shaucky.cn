@@ -155,6 +155,8 @@
           <div class="d-flex align-items-center gap-2 flex-wrap">
             <span id="model-status" class="badge text-bg-light border">模型：未加载（首次下载约 113MB，点击加权抽取也会触发加载）</span>
             <button id="btn-download" type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3">加载模型</button>
+            <button id="btn-clear-cache" type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3"
+              title="删除已下载的模型文件，释放存储空间；下次加权抽取需重新下载">清除缓存</button>
           </div>
           <div id="model-progress-wrap" class="mt-2 d-none">
             <div class="d-flex justify-content-between small text-secondary mb-1">
@@ -497,6 +499,32 @@
       getExtractor()
         .then(() => { btn.textContent = '模型已就绪'; })
         .catch(() => { btn.disabled = false; btn.textContent = '重试下载'; });
+    });
+
+    // 删除模型缓存：QQ / 微信等移动端内置浏览器通常没有清除站点数据的入口
+    document.getElementById('btn-clear-cache').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-clear-cache');
+      btn.disabled = true;
+      const reset = (text) => {
+        btn.textContent = text;
+        setTimeout(() => { btn.disabled = false; btn.textContent = '清除缓存'; }, 2000);
+      };
+      try {
+        const exists = 'caches' in window && (await caches.keys()).includes('transformers-cache');
+        if (exists && (await caches.delete('transformers-cache'))) {
+          if (extractorPromise) { // 模型已在内存中，本次会话仍可用
+            statusEl.textContent = '模型：就绪（缓存已清除，下次访问需重新下载）';
+          } else {
+            statusEl.textContent = '模型：未加载（首次下载约 113MB，点击加权抽取也会触发加载）';
+            statusEl.className = 'badge text-bg-light border';
+          }
+          reset('已清除');
+        } else {
+          reset('无缓存');
+        }
+      } catch {
+        reset('清除失败');
+      }
     });
 
     // ---------- 初始化 ----------
