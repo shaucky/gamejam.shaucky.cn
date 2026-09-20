@@ -2,9 +2,9 @@
 # 以 # 开头的行为注释，空行忽略，重复主题自动去重
 # 向量池由 themes2vec.mjs 生成，修改本文件后重新运行 npm run build 即可
 
-# —— 中文主题（185）——
+# —— 中文主题——
 
-# 时刻与光阴
+
 间隙
 余温
 倒带
@@ -25,8 +25,15 @@
 迟来的一秒
 余生第一天
 正午
+与此同时
+回到过去
+童年
+闪光
+时针
+时间轴
+传说
 
-# 边界与位置
+
 边界
 缝隙
 门后
@@ -47,8 +54,15 @@
 圆心之外
 高处与低处
 里外
+家
+原点
+半径
+立场
+无际
+平行宇宙
+启航
 
-# 变化与过程
+
 褪色
 锈蚀
 萌芽
@@ -69,8 +83,19 @@
 回潮
 汽化
 冷却
+迁徙
+气温变化
+世纪
+拐弯
+周而复始
+完整的一生
+食
+回归
+救赎
+跳
+二极管
 
-# 关系与距离
+
 平行
 交错
 重叠
@@ -91,8 +116,16 @@
 对峙
 相邻
 久别
+我们终将重逢
+跨越时空的距离
+永远有多远
+交通工具
+陪伴
+火锅
+派对
+相反
 
-# 程度与分量
+
 半
 几乎
 刚好
@@ -113,8 +146,14 @@
 用不完
 分寸
 火候
+接连不断
+最后的机会
+新世界
+期望
+惊喜
+空洞
 
-# 感知与错觉
+
 盲区
 回声
 预感
@@ -135,8 +174,21 @@
 近在眼前
 远方的声音
 陌生的熟悉
+麻木
+我原以为
+不确定
+希望
+难以呼吸
+月
+梦幻
+群星
+偏爱
+聚焦
+看
+视野
+仁慈
 
-# 身份与角色
+
 幕后
 配角
 替补
@@ -157,8 +209,18 @@
 无名之辈
 隐形人
 前任
+监管者
+最后的演员
+并非无所不能的上帝
+这次轮到我当反派
+超级英雄
+屠龙少年终成恶龙
+鱼
+天使
+最大的梦想家
+奇幻生物
 
-# 旧物与痕迹
+
 钥匙
 锁孔
 包装纸
@@ -179,8 +241,17 @@
 涂改痕迹
 旧货摊
 遗落角落
+纸飞机
+放大镜
+时光邮局
+埋葬
+最后一课
+碎片
+宝藏
+通讯工具
+弥补
 
-# 矛盾与悖论
+
 温柔的重量
 安静的轰鸣
 明亮的夜
@@ -201,17 +272,24 @@
 崭新的旧物
 无害的谎言
 半开的门
+异能
+知识的诅咒
+和平与战争
+这是最好的时代，这是最坏的时代
+崩坏的信仰
+不朽
 
-# 抽象拾遗
+
 熵
 潜台词
 暗流
 伏笔
 留白
+变量
 
-# —— 英文主题（180）——
+# —— 英文主题——
 
-# Time & Moments
+
 Interval
 Interlude
 Overtime
@@ -232,8 +310,10 @@ Night Shift
 Downtime
 Eleventh Hour
 Afterparty
+Frame
+Jet Lag
 
-# Places & Edges
+
 Threshold
 Doorstep
 Edge of the Map
@@ -254,8 +334,12 @@ Backstage
 Undercurrents
 Footnotes
 The Middle
+Somewhere I Belong
+Avalon
+Wasteland
+Stage
 
-# Changes & Processes
+
 Unraveling
 Overgrown
 Half-Finished
@@ -276,8 +360,12 @@ Awakening
 Barely Floating
 Slow Collapse
 Quiet Bloom
+Evolve
+Fall
+Snow
+Ignite
 
-# Relations & Distances
+
 Parallel Lives
 Intersecting
 Kept Apart
@@ -299,7 +387,7 @@ Unbound
 Opposite Numbers
 One-Sided
 
-# Quantities & Degrees
+
 Not Quite
 Almost Enough
 Just Under
@@ -321,7 +409,7 @@ More or Less
 Give or Take
 Within Limits
 
-# Perception & Illusions
+
 Blind Spot
 Peripheral
 Out of Focus
@@ -342,8 +430,11 @@ Lucid
 Deja Vu
 Afterimage
 Monochrome
+Calm Down
+Something Just Like This
+Oblivion
 
-# Roles & Identities
+
 Understudy
 Stand-In
 Second Fiddle
@@ -364,8 +455,12 @@ Nobody's Hero
 Replaced
 Runner-Up
 Chaperone
+Unfair
+How to Save a Life
+Remember Me
+Astronaut
 
-# Objects & Traces
+
 Spare Key
 Unclaimed
 Left Behind
@@ -387,7 +482,7 @@ Matching Pair
 Spare Parts
 Patina
 
-# Paradoxes
+
 Open Secret
 Known Unknowns
 Organized Chaos
@@ -408,3 +503,4 @@ Necessary Evil
 Bittersweet
 Semi-Professional
 Amateur Hour
+All for Nothing
